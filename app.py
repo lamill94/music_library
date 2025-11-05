@@ -43,6 +43,8 @@ def post_artists():
     repository.create(artist)
     return "", 200
 
+# Can add GET (for single id), DELETE and PATCH routes for albums and artists - also need to add tests for these
+
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test DB if started in test mode
 if __name__ == '__main__':

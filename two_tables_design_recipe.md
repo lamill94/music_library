@@ -98,6 +98,8 @@ CREATE TABLE albums (
 
 ## 6. Create the tables
 
+cd into seeds and run below bash command:
+
 ```bash
 psql -h 127.0.0.1 music_library < music_library.sql
 ```

@@ -15,3 +15,6 @@ class ArtistRepository:
     def create(self, artist):
         rows = self._connection.execute_query('INSERT INTO artists (name, genre) VALUES (%s, %s) RETURNING id', [artist.name, artist.genre])
         return rows[0]['id']
+    
+    # Can add a find or delete method (see databases-in-python-project-starter) or update method (see python-web-app-project-starter)
+    # Would also need to add testing for these methods
