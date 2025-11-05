@@ -9,7 +9,7 @@ from app import app
 @pytest.fixture
 
 def db_connection():
-    connection = DatabaseConnection()
+    connection = DatabaseConnection(test_mode = True)
     connection.connect()
     return connection
 
