@@ -16,6 +16,22 @@ def test_get_albums(db_connection, web_client):
         "Album(8, Here Comes the Sun, 1971, 4)"
     ])
 
+# When I call GET /artists
+# I get a list of artists back
+
+def test_get_artists(db_connection, web_client):
+    db_connection.seed("seeds/music_library.sql")
+    response = web_client.get("/artists")
+    assert response.status_code == 200
+    assert response.data.decode('utf-8') == "\n".join([
+        "Artist(1, Pixies, Rock)",
+        "Artist(2, ABBA, Pop)",
+        "Artist(3, Taylor Swift, Pop)",
+        "Artist(4, Nina Simone, Jazz)"
+    ])
+
+# "Artist(5, Wild Nothing, Indie)"- ADD TO GET METHOD IN POST
+
 # When I call POST /albums with album info
 # That album is now in the list in GET /albums
 
@@ -64,3 +80,4 @@ def test_post_albums_no_data(db_connection, web_client):
         "Album(7, I Put a Spell on You, 1965, 4)",
         "Album(8, Here Comes the Sun, 1971, 4)"
     ])
+
