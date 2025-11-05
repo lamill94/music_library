@@ -1,26 +1,15 @@
-
-# {{ NAME }} Route Design Recipe
-
-_Copy this design recipe template to test-drive a plain-text Flask route._
+# Plain Route Design Recipe
 
 ## 1. Design the Route Signature
 
 _Include the HTTP method, the path, and any query or body parameters._
 
-```
-# EXAMPLE
+POST /albums
+    title: string
+    release_year: number (str)
+    artist_id: number (str)
 
-# Home route
-GET /home
-
-# Waving route
-GET /wave?name=
-
-# Submit message route
-POST /submit
-  name: string
-  message: string
-```
+GET /albums
 
 ## 2. Create Examples as Tests
 
@@ -30,7 +19,23 @@ _Remember to try out different parameter values._
 
 _Include the status code and the response body._
 
-```python
+>> Scenario 1:
+
+# POST /albums
+#   title: "In Ear Park"
+#   release_year: 2008
+#   artist_id: 1
+# Expected response (200 OK)
+no content
+
+INSERT INTO albums (title, release_year, artist_id) VALUES ('Baltimore', 1978, 4);
+
+# GET /albums
+# Expected response (200 OK)
+Album(1, The Cold Nose, 2008, 1)
+Album(2, In Ear Park, 2008, 1)
+
+
 # EXAMPLE
 
 # GET /home
