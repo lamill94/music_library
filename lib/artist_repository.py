@@ -10,3 +10,8 @@ class ArtistRepository:
     def all(self):
         rows = self._connection.execute_query('SELECT * from artists')
         return [Artist(row['id'], row['name'], row['genre']) for row in rows]
+    
+    # Create a new artist
+    def create(self, artist):
+        rows = self._connection.execute_query('INSERT INTO artists (name, genre) VALUES (%s, %s) RETURNING id', [artist.name, artist.genre])
+        return rows[0]['id']

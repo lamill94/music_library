@@ -3,6 +3,7 @@ from lib.database_connection import get_flask_database_connection
 from lib.album_repository import AlbumRepository
 from lib.album import Album
 from lib.artist_repository import ArtistRepository
+from lib.artist import Artist
 from flask import Flask, request
 
 # Create a new Flask app
@@ -30,6 +31,16 @@ def post_albums():
     repository = AlbumRepository(connection)
     album = Album(None, request.form['title'], request.form['release_year'], request.form['artist_id'])
     repository.create(album)
+    return "", 200
+
+@app.route('/artists', methods = ['POST'])
+def post_artists():
+    if 'name' not in request.form or 'genre' not in request.form:
+        return "You need to submit a name and genre", 400
+    connection = get_flask_database_connection(app)
+    repository = ArtistRepository(connection)
+    artist = Artist(None, request.form['name'], request.form['genre'])
+    repository.create(artist)
     return "", 200
 
 # These lines start the server if you run this file directly

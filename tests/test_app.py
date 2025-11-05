@@ -30,8 +30,6 @@ def test_get_artists(db_connection, web_client):
         "Artist(4, Nina Simone, Jazz)"
     ])
 
-# "Artist(5, Wild Nothing, Indie)"- ADD TO GET METHOD IN POST
-
 # When I call POST /albums with album info
 # That album is now in the list in GET /albums
 
@@ -59,6 +57,25 @@ def test_post_albums(db_connection, web_client):
         "Album(9, Baltimore, 1978, 4)"
     ])
 
+# When I call POST /artists with artist info
+# That artist is now in the list in GET /artists
+
+def test_post_artists(db_connection, web_client):
+    db_connection.seed("seeds/music_library.sql")
+    post_response = web_client.post("/artists", data = {'name': 'Wild Nothing', 'genre': 'Indie'})
+    assert post_response.status_code == 200
+    assert post_response.data.decode('utf-8') == ""
+
+    get_response = web_client.get("/artists")
+    assert get_response.status_code == 200
+    assert get_response.data.decode('utf-8') == "\n".join([
+        "Artist(1, Pixies, Rock)",
+        "Artist(2, ABBA, Pop)",
+        "Artist(3, Taylor Swift, Pop)",
+        "Artist(4, Nina Simone, Jazz)",
+        "Artist(5, Wild Nothing, Indie)"
+    ])
+
 # When I call POST /albums with no data
 # I get error message
 
@@ -79,5 +96,23 @@ def test_post_albums_no_data(db_connection, web_client):
         "Album(6, Folklore, 2020, 3)",
         "Album(7, I Put a Spell on You, 1965, 4)",
         "Album(8, Here Comes the Sun, 1971, 4)"
+    ])
+
+# When I call POST /artists with no data
+# I get error message
+
+def test_post_artists_no_data(db_connection, web_client):
+    db_connection.seed("seeds/music_library.sql")
+    post_response = web_client.post("/artists")
+    assert post_response.status_code == 400
+    assert post_response.data.decode('utf-8') == "You need to submit a name and genre"
+
+    get_response = web_client.get("/artists")
+    assert get_response.status_code == 200
+    assert get_response.data.decode('utf-8') == "\n".join([
+        "Artist(1, Pixies, Rock)",
+        "Artist(2, ABBA, Pop)",
+        "Artist(3, Taylor Swift, Pop)",
+        "Artist(4, Nina Simone, Jazz)"
     ])
 
